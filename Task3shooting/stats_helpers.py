@@ -1,182 +1,117 @@
 # stats_helpers.py
-# The statistics for my task.
-# Every function follows a formula from the unit notes - the comments say
-# which week each one comes from, and I used the "Key Python functions"
-# the practicals listed for that week.
+# shared stats functions so the task file stays clean and short.
+# every function takes a sample (list or pandas Series) and returns a dict.
 
 import math
-import statistics
 import numpy as np
 from scipy import stats
 
 
-def _clean(sample):
-    """turn the data into a plain array of numbers and drop any NaN"""
-    s = np.asarray(sample, dtype=float)
-    return s[~np.isnan(s)]
-
-
 def describe(sample):
-    """
-    DESCRIPTIVE STATISTICS - Week 2.
-
-    The notes say data is described in two aspects, so I do both:
-      - central tendency: mean, median
-      - dispersion (spread): range, interquartile range, variance,
-        standard deviation
-    """
-    s = _clean(sample)
-    n = len(s)
-
-    # --- central tendency ---
-    mean = statistics.mean(s)
-    median = statistics.median(s)
-    # I did not calculate the mode. The notes say the mode is normally used
-    # for nominal or ordinal data, and conversion rate is continuous ratio
-    # data - nearly every value appears only once, so a mode would be
-    # meaningless here.
-
-    # --- dispersion ---
-    smallest = float(np.min(s))
-    largest = float(np.max(s))
-    data_range = largest - smallest          # range = max - min
-
-    q1 = float(np.percentile(s, 25))         # 25th percentile
-    q3 = float(np.percentile(s, 75))         # 75th percentile
-    iqr = q3 - q1                            # interquartile range
-
-    # ddof=1 divides by (n - 1). That is the SAMPLE variance formula from
-    # the notes, not the population one. We have a sample, so ddof=1.
-    variance = float(np.var(s, ddof=1))
-    std = float(np.std(s, ddof=1))           # std = square root of variance
-
+    """central tendency + dispersion for one set of numbers"""
+    s = np.asarray(sample, dtype=float)
+    s = s[~np.isnan(s)]
+    q1 = float(np.percentile(s, 25))
+    q3 = float(np.percentile(s, 75))
     return {
-        "n": int(n),
-        "mean": round(float(mean), 4),
-        "median": round(float(median), 4),
-        "min": round(smallest, 4),
-        "max": round(largest, 4),
-        "range": round(data_range, 4),
-        "q1": round(q1, 4),
-        "q3": round(q3, 4),
-        "iqr": round(iqr, 4),
-        "variance": round(variance, 5),
-        "std": round(std, 4),
+        "n": int(len(s)),
+        "mean": float(np.mean(s)),
+        "median": float(np.median(s)),
+        "min": float(np.min(s)),
+        "max": float(np.max(s)),
+        "range": float(np.max(s) - np.min(s)),
+        "q1": q1,
+        "q3": q3,
+        "iqr": q3 - q1,
+        "variance": float(np.var(s, ddof=1)),   # ddof=1 = sample variance
+        "std": float(np.std(s, ddof=1)),         # sample standard deviation
     }
 
 
 def check_normality(sample):
     """
-    CONDITION FOR INFERENCE - Week 4, Step 3.
-    The notes say to check whether the sample looks normally distributed,
-    because if it doesn't "the power of p-value may be limited".
-
-    A normal distribution is symmetric, so its mean and median are about
-    the same. Skewness measures that: 0 is perfectly symmetric, and the
-    common rule of thumb is that between -0.5 and +0.5 is near enough.
+    A rough check that the sample is roughly normal, for the conditions of
+    inference. We look at skewness (near 0 = symmetric) and compare the
+    mean and median (close together = symmetric).
     """
-    s = _clean(sample)
-    skewness = float(stats.skew(s))
+    s = np.asarray(sample, dtype=float)
+    s = s[~np.isnan(s)]
+    skew = float(stats.skew(s))
     return {
-        "mean": round(float(statistics.mean(s)), 4),
-        "median": round(float(statistics.median(s)), 4),
-        "skewness": round(skewness, 3),
-        "roughly_normal": bool(abs(skewness) < 0.5),
+        "skewness": skew,
+        "mean": float(np.mean(s)),
+        "median": float(np.median(s)),
+        # a common rule of thumb: |skewness| < 0.5 is fairly symmetric
+        "roughly_normal": abs(skew) < 0.5,
     }
 
 
 def confidence_interval(sample, conf=0.95):
     """
-    CONFIDENCE INTERVAL for the population mean - Week 3.
-
-        CI = x-bar  ±  z* · (s / sqrt(n))
-
-        s / sqrt(n)        is the STANDARD ERROR
-        z* · s / sqrt(n)   is the MARGIN OF ERROR
-
-    Which critical value to use? The notes give this rule:
-      - sample size < 30   -> use t*  (t-distribution, df = n - 1)
-      - sample size >= 30  -> use z*  (standard normal), by convention
-    Our sample is 30, so this picks z* = 1.960 for 95% confidence.
+    Confidence interval for the population mean.
+    Following the notes: use z* when the sample is large (n >= 30),
+    use t* when it is small (n < 30).
     """
-    s = _clean(sample)
+    s = np.asarray(sample, dtype=float)
+    s = s[~np.isnan(s)]
     n = len(s)
-    mean = statistics.mean(s)
-    sd = np.std(s, ddof=1)
-
+    mean = float(np.mean(s))
+    sd = float(np.std(s, ddof=1))
     standard_error = sd / math.sqrt(n)
 
     if n >= 30:
-        critical = float(stats.norm.ppf((1 + conf) / 2))   # z*
-        stat_used = "z*"
-        df = None
+        # large sample -> z*
+        critical = float(stats.norm.ppf((1 + conf) / 2))
+        stat_name = "z*"
     else:
-        critical = float(stats.t.ppf((1 + conf) / 2, n - 1))  # t*
-        stat_used = "t*"
-        df = n - 1
+        # small sample -> t* with n-1 degrees of freedom
+        critical = float(stats.t.ppf((1 + conf) / 2, n - 1))
+        stat_name = "t*"
 
-    margin_of_error = critical * standard_error
-
+    margin = critical * standard_error
     return {
-        "conf_level": conf,
-        "n": int(n),
-        "mean": round(float(mean), 4),
-        "standard_error": round(float(standard_error), 5),
-        "statistic_used": stat_used,
-        "critical_value": round(critical, 4),
-        "df": df,
-        "margin_of_error": round(float(margin_of_error), 5),
-        "lower": round(float(mean - margin_of_error), 4),
-        "upper": round(float(mean + margin_of_error), 4),
+        "mean": mean,
+        "standard_error": standard_error,
+        "statistic_used": stat_name,
+        "critical_value": critical,
+        "margin_of_error": margin,
+        "lower": mean - margin,
+        "upper": mean + margin,
     }
 
 
 def two_sample_ttest(group_a, group_b, alpha=0.05):
     """
-    TWO-SAMPLE (INDEPENDENT) t-TEST - Week 4.
-
-    The formula in the notes is:
-
-        t* = (x-bar_1 - x-bar_2) / sqrt( s1²/n1 + s2²/n2 )
-
-    scipy.stats.ttest_ind() does this for us. equal_var=False (Welch's
-    test) is the version that keeps the two groups' variances separate,
-    which is exactly the formula above. Our two groups are different sizes
-    so this is the safer choice.
-
-    Degrees of freedom: the notes take the conservative approach for a
-    manual table lookup, i.e. the smaller group's n - 1.
-
-    Decision rule from the notes: reject the null hypothesis when
-    p-value <= 0.05.
+    Two-sample (independent) t-test comparing the means of two groups.
+    Welch's version (equal_var=False) because the groups can have
+    different spreads. Degrees of freedom uses the conservative approach
+    from the notes: the smaller group size minus 1.
     """
-    a = _clean(group_a)
-    b = _clean(group_b)
+    a = np.asarray(group_a, dtype=float)
+    b = np.asarray(group_b, dtype=float)
+    a = a[~np.isnan(a)]
+    b = b[~np.isnan(b)]
 
     t_stat, p_value = stats.ttest_ind(a, b, equal_var=False)
 
-    reject_null = bool(p_value <= alpha)
+    # conservative degrees of freedom = smaller sample - 1
+    df_cons = min(len(a), len(b)) - 1
 
-    # A very small p-value would round away to 0.0, and "p = 0" is wrong -
-    # the probability is tiny, never actually zero. So keep 4 significant
-    # figures (which stays honest for numbers like 3.02e-08) and report it
-    # as "< 0.0001", the way results are normally written up.
-    p = float(p_value)
-    p_text = "< 0.0001" if p < 0.0001 else str(round(p, 4))
+    if p_value < 0.001:
+        p_text = "< 0.001"
+    else:
+        p_text = "%.4f" % p_value
 
     return {
         "n_a": int(len(a)),
+        "mean_a": float(np.mean(a)),
+        "std_a": float(np.std(a, ddof=1)),
         "n_b": int(len(b)),
-        "mean_a": round(float(statistics.mean(a)), 4),
-        "mean_b": round(float(statistics.mean(b)), 4),
-        "std_a": round(float(np.std(a, ddof=1)), 4),
-        "std_b": round(float(np.std(b, ddof=1)), 4),
-        "t_stat": round(float(t_stat), 4),
-        "p_value": float("%.4g" % p),
+        "mean_b": float(np.mean(b)),
+        "std_b": float(np.std(b, ddof=1)),
+        "t_stat": float(t_stat),
+        "p_value": float(p_value),
         "p_value_text": p_text,
-        # smaller group's n - 1, the conservative df the notes use
-        "df_conservative": int(min(len(a), len(b)) - 1),
-        "alpha": alpha,
-        "reject_null": reject_null,
-        "significant": reject_null,
+        "df_conservative": df_cons,
+        "reject_null": bool(p_value <= alpha),
     }

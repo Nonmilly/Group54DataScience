@@ -2,9 +2,9 @@
 # Author: Mildred
 # Task 3 - SHOOTING EFFICIENCY
 #
-# This is the terminal version of my task. No Flask, no web page - it
-# downloads the data with requests, runs the whole analysis, and prints
-# everything out so you can read it in the terminal.
+# This version reads the World Cup data from an Excel file (no downloading).
+# The file is  data/fifadata.xlsx  and has these columns:
+#     Team, Matches, Goals, Attempts
 #
 # Run it with:   python task3.py
 #
@@ -12,7 +12,6 @@
 # hypothesis test from the unit notes (State / Plan / Solve / Conclude).
 
 import os
-import requests
 import pandas as pd
 
 from stats_helpers import (
@@ -25,24 +24,10 @@ from stats_helpers import (
 # ---------------------------------------------------------------------
 # WHERE THE DATA COMES FROM
 # ---------------------------------------------------------------------
-# The fifa.com statistics page builds its table with JavaScript, so there
-# is no table sitting in the page to read. The page gets its numbers from
-# FIFA's own data service, so that is what I ask for instead.
-PAGE = ("https://www.fifa.com/en/tournaments/mens/worldcup/"
-        "canadamexicousa2026/statistics/team-statistics")
-
-FIFA_API = "https://api.fifa.com/api/v3"
-COMPETITION = "17"       # FIFA World Cup
-SEASON = "285023"        # the 2026 tournament
-
-BROWSER = {
-    "User-Agent": ("Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-                   "AppleWebKit/537.36 (KHTML, like Gecko) "
-                   "Chrome/120.0 Safari/537.36"),
-    "Accept": "application/json",
-}
-
-EXTRACT = os.path.join(os.path.dirname(__file__), "data", "fifawcextract.csv")
+# The data lives in an Excel workbook that sits in the data/ folder next
+# to this script. I open it with pandas.read_excel(). Nothing is
+# downloaded - the file is prepared beforehand and read straight off disk.
+DATA_FILE = os.path.join(os.path.dirname(__file__), "data", "fifadata.xlsx")
 
 LINE = "=" * 70
 
@@ -55,98 +40,23 @@ def heading(text):
     print(LINE)
 
 
-def get_json(url):
-    """download one address with requests and read the JSON"""
-    response = requests.get(url, headers=BROWSER, timeout=45)
-    response.raise_for_status()      # stop here if the site said no
-    return response.json()
-
-
-def first_description(items):
-    """FIFA gives text as a list of translations - take the English one"""
-    return items[0]["Description"] if items else ""
-
-
-def download_data():
+def load_data():
     """
-    Download all 104 matches and count up what each team did.
-    Returns a DataFrame with one row per team.
+    Read the World Cup data from the Excel file into a DataFrame.
+    Returns one row per team.
     """
-    print("Source page :", PAGE)
-    print("Data service:", FIFA_API)
-    print()
-    print("Downloading the match list...")
+    print("Reading data from:", DATA_FILE)
 
-    calendar = get_json("%s/calendar/matches?idCompetition=%s&idSeason=%s&count=200"
-                        % (FIFA_API, COMPETITION, SEASON))
-    matches = calendar.get("Results", [])
-    print("  got", len(matches), "matches")
+    if not os.path.exists(DATA_FILE):
+        raise FileNotFoundError(
+            "could not find data/fifadata.xlsx - put the Excel file in the "
+            "data folder next to this script"
+        )
 
-    teams = {}
-
-    def row_for(team):
-        team_id = team["IdTeam"]
-        if team_id not in teams:
-            teams[team_id] = {
-                "Team": first_description(team.get("TeamName")),
-                "Matches": 0, "Goals": 0, "GoalsAgainst": 0,
-                "Attempts": 0, "Assists": 0, "Corners": 0,
-                "Offsides": 0, "Fouls": 0, "YellowCards": 0, "Saves": 0,
-            }
-        return teams[team_id]
-
-    # which timeline event adds to which column
-    counts = {
-        "Attempt at Goal": "Attempts",
-        "Assist": "Assists",
-        "Corner": "Corners",
-        "Offside": "Offsides",
-        "Foul": "Fouls",
-        "Yellow card": "YellowCards",
-        "Goal Prevention": "Saves",
-    }
-
-    print("Downloading each match's events (about half a minute)...")
-    for number, match in enumerate(matches, start=1):
-        home, away = match.get("Home"), match.get("Away")
-        if not home or not away:
-            continue
-
-        home_row, away_row = row_for(home), row_for(away)
-        home_goals = match.get("HomeTeamScore") or 0
-        away_goals = match.get("AwayTeamScore") or 0
-
-        for row, scored, let_in in ((home_row, home_goals, away_goals),
-                                    (away_row, away_goals, home_goals)):
-            row["Matches"] += 1
-            row["Goals"] += scored
-            row["GoalsAgainst"] += let_in
-
-        timeline = get_json("%s/timelines/%s/%s/%s/%s"
-                            % (FIFA_API, COMPETITION, SEASON,
-                               match["IdStage"], match["IdMatch"]))
-        for event in timeline.get("Event", []):
-            column = counts.get(first_description(event.get("TypeLocalized")))
-            team_id = event.get("IdTeam")
-            if column and team_id in teams:
-                teams[team_id][column] += 1
-
-        if number % 20 == 0:
-            print("  ...%d of %d matches" % (number, len(matches)))
-
-    df = pd.DataFrame(list(teams.values()))
-    print("  counted up", len(df), "teams")
-
-    # save it, deleting any old extract first
-    os.makedirs(os.path.dirname(EXTRACT), exist_ok=True)
-    if os.path.exists(EXTRACT):
-        os.remove(EXTRACT)
-        print("  deleted the old extract")
-    df.to_csv(EXTRACT, index=False)
-    print("  saved to data/fifawcextract.csv")
-
-    # load it back, so what I analyse is exactly what is in the file
-    return pd.read_csv(EXTRACT)
+    # read_excel needs the openpyxl package to open .xlsx files
+    df = pd.read_excel(DATA_FILE)
+    print("  loaded", len(df), "teams from the workbook")
+    return df
 
 
 def main():
@@ -155,13 +65,12 @@ def main():
 
     heading("GETTING THE DATA")
     try:
-        df = download_data()
+        df = load_data()
     except Exception as e:
-        print("\nThe download failed:", e)
-        print("Check your internet connection and try again.")
+        print("\nCould not read the Excel file:", e)
         return
 
-    print("\nFirst 10 rows of the downloaded data:")
+    print("\nFirst 10 rows of the data:")
     print(df.head(10).to_string(index=False))
 
     # =================================================================
