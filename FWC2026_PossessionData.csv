@@ -1,0 +1,105 @@
+Match_No,Host,Stage,Match_Date,Home_Team (HT),Away_Team,HT_Goals,AT_Goals,Winner,HT_Possession (%),AT_Possession (%),Contested_Possession (%)
+1,Mexico,Group Stage,6/12/2026,Mexico,South Africa,2,0,Mexico,57,36,7
+2,Mexico,Group Stage,6/12/2026,South Korea,Czechia,2,1,South Korea,55,34,11
+3,Canada,Group Stage,6/13/2026,Canada,Bosnia and Herzegovina,1,1,Draw,52,29,19
+4,USA,Group Stage,6/13/2026,United States,Paraguay,4,1,United States,59,28,13
+5,USA,Group Stage,6/14/2026,Qatar,Switzerland,1,1,Draw,28,58,14
+6,USA,Group Stage,6/14/2026,Brazil,Morocco,1,1,Draw,46,45,9
+7,USA,Group Stage,6/14/2026,Haiti,Scotland,0,1,Scotland,51,40,9
+8,Canada,Group Stage,6/14/2026,Australia,Turkiye,2,0,Australia,27,62,11
+9,USA,Group Stage,6/15/2026,Germany,Curacao,7,1,Germany,57,35,8
+10,USA,Group Stage,6/15/2026,Netherlands,Japan,2,2,Draw,54,37,9
+11,USA,Group Stage,6/15/2026,Cote d'Ivoire,Ecuador,1,0,Cote d'Ivoire,41,49,10
+12,Mexico,Group Stage,6/15/2026,Sweden,Tunisia,5,1,Sweden,47,42,11
+13,USA,Group Stage,6/16/2026,Spain,Cape Verde,0,0,Draw,65,25,10
+14,USA,Group Stage,6/16/2026,Belgium,Egypt,1,1,Draw,52,38,10
+15,USA,Group Stage,6/16/2026,Saudi Arabia,Uruguay,1,1,Draw,27,63,10
+16,USA,Group Stage,6/16/2026,Iran,New Zealand,2,2,Draw,43,45,12
+17,USA,Group Stage,6/17/2026,France,Senegal,3,1,France,49,44,7
+18,USA,Group Stage,6/17/2026,Iraq,Norway,1,4,Norway,34,57,9
+19,USA,Group Stage,6/17/2026,Argentina,Algeria,3,0,Argentina,44,50,6
+20,USA,Group Stage,6/17/2026,Austria,Jordan,3,1,Austria,53,33,14
+21,USA,Group Stage,6/18/2026,Portugal,DR Congo,1,1,Draw,68,25,7
+22,USA,Group Stage,6/18/2026,England,Croatia,4,2,England,48,43,9
+23,Canada,Group Stage,6/18/2026,Ghana,Panama,1,0,Ghana,35,55,10
+24,Mexico,Group Stage,6/18/2026,Uzbekistan,Colombia,1,3,Colombia,33,56,11
+25,USA,Group Stage,6/19/2026,Czechia,South Africa,1,1,Draw,32,60,8
+26,USA,Group Stage,6/19/2026,Switzerland,Bosnia and Herzegovina,4,1,Switzerland,57,34,9
+27,Canada,Group Stage,6/19/2026,Canada,Qatar,6,0,Canada,65,20,15
+28,Mexico,Group Stage,6/19/2026,Mexico,South Korea,1,0,Mexico,40,51,9
+29,USA,Group Stage,6/20/2026,United States,Australia,2,0,United States,55,30,15
+30,USA,Group Stage,6/20/2026,Scotland,Morocco,0,1,Morocco,39,54,7
+31,USA,Group Stage,6/20/2026,Brazil,Haiti,3,0,Brazil,49,43,8
+32,USA,Group Stage,6/20/2026,Turkiye,Paraguay,0,1,Paraguay,67,19,14
+33,USA,Group Stage,6/21/2026,Netherlands,Sweden,5,1,Netherlands,48,43,9
+34,Canada,Group Stage,6/21/2026,Germany,Cote d'Ivoire,2,1,Germany,49,41,10
+35,USA,Group Stage,6/21/2026,Ecuador,Curacao,0,0,Draw,65,23,12
+36,Mexico,Group Stage,6/21/2026,Tunisia,Japan,0,4,Japan,36,55,9
+37,USA,Group Stage,6/22/2026,Spain,Saudi Arabia,4,0,Spain,63,29,8
+38,USA,Group Stage,6/22/2026,Belgium,Iran,0,0,Draw,59,30,11
+39,USA,Group Stage,6/22/2026,Uruguay,Cape Verde,2,2,Draw,54,33,13
+40,Canada,Group Stage,6/22/2026,New Zealand,Egypt,1,3,Egypt,39,50,11
+41,USA,Group Stage,6/23/2026,Argentina,Austria,2,0,Argentina,48,43,9
+42,USA,Group Stage,6/23/2026,France,Iraq,3,0,France,49,44,7
+43,USA,Group Stage,6/23/2026,Norway,Senegal,3,2,Norway,40,51,9
+44,USA,Group Stage,6/23/2026,Jordan,Algeria,1,2,Algeria,27,62,11
+45,USA,Group Stage,6/24/2026,Portugal,Uzbekistan,5,0,Portugal,56,34,10
+46,USA,Group Stage,6/24/2026,England,Ghana,0,0,Draw,72,20,8
+47,Canada,Group Stage,6/24/2026,Panama,Croatia,0,1,Croatia,37,52,11
+48,Mexico,Group Stage,6/24/2026,Colombia,DR Congo,1,0,Colombia,58,32,10
+49,USA,Group Stage,6/25/2026,Bosnia and Herzegovina,Qatar,3,1,Bosnia and Herzegovina,48,42,10
+50,Canada,Group Stage,6/25/2026,Switzerland,Canada,2,1,Switzerland,48,40,12
+51,USA,Group Stage,6/25/2026,Morocco,Haiti,4,2,Morocco,60,31,9
+52,USA,Group Stage,6/25/2026,Scotland,Brazil,0,3,Brazil,42,51,7
+53,Mexico,Group Stage,6/25/2026,South Africa,South Korea,1,0,South Africa,30,60,10
+54,USA,Group Stage,6/25/2026,Czechia,Mexico,0,3,Mexico,44,46,10
+55,USA,Group Stage,6/26/2026,Ecuador,Germany,2,1,Ecuador,39,51,10
+56,USA,Group Stage,6/26/2026,Curacao,Cote d'Ivoire,0,2,Cote d'Ivoire,37,55,8
+57,USA,Group Stage,6/26/2026,Japan,Sweden,1,1,Draw,44,44,12
+58,USA,Group Stage,6/26/2026,Tunisia,Netherlands,1,3,Netherlands,27,64,9
+59,USA,Group Stage,6/26/2026,Paraguay,Australia,0,0,Draw,42,46,12
+60,USA,Group Stage,6/26/2026,Turkiye,United States,3,2,Turkiye,42,48,10
+61,Canada,Group Stage,6/27/2026,Senegal,Iraq,5,0,Senegal,58,38,4
+62,USA,Group Stage,6/27/2026,Norway,France,1,4,France,40,51,9
+63,USA,Group Stage,6/27/2026,Cape Verde,Saudi Arabia,0,0,Draw,41,47,12
+64,Mexico,Group Stage,6/27/2026,Uruguay,Spain,0,1,Spain,33,57,10
+65,USA,Group Stage,6/27/2026,Egypt,Iran,1,1,Draw,53,36,11
+66,Canada,Group Stage,6/27/2026,New Zealand,Belgium,1,5,Belgium,40,50,10
+67,USA,Group Stage,6/28/2026,Croatia,Ghana,2,1,Croatia,50,43,7
+68,USA,Group Stage,6/28/2026,Panama,England,0,2,England,33,57,10
+69,USA,Group Stage,6/28/2026,Colombia,Portugal,0,0,Draw,51,41,8
+70,USA,Group Stage,6/28/2026,DR Congo,Uzbekistan,3,1,DR Congo,53,36,11
+71,USA,Group Stage,6/28/2026,Jordan,Argentina,1,3,Argentina,27,67,6
+72,USA,Group Stage,6/28/2026,Algeria,Austria,3,3,Draw,60,33,7
+73,USA,Round of 32,6/29/2026,South Africa,Canada,0,1,Canada,55,35,10
+74,USA,Round of 32,6/30/2026,Brazil,Japan,2,1,Brazil,61,30,9
+75,USA,Round of 32,6/30/2026,Germany,Paraguay,1,1,Paraguay,65,23,12
+76,Mexico,Round of 32,6/30/2026,Netherlands,Morocco,1,1,Morocco,31,61,8
+77,USA,Round of 32,7/1/2026,Cote d'Ivoire,Norway,1,2,Norway,41,50,9
+78,USA,Round of 32,7/1/2026,France,Sweden,3,0,France,53,38,9
+79,Mexico,Round of 32,7/1/2026,Mexico,Ecuador,2,0,Mexico,37,52,11
+80,USA,Round of 32,7/2/2026,England,DR Congo,2,1,England,53,37,10
+81,USA,Round of 32,7/2/2026,Belgium,Senegal,3,2,Belgium,48,42,10
+82,USA,Round of 32,7/2/2026,United States,Bosnia and Herzegovina,2,0,United States,43,47,10
+83,USA,Round of 32,7/3/2026,Spain,Austria,3,0,Spain,59,33,8
+84,Canada,Round of 32,7/3/2026,Portugal,Croatia,2,1,Portugal,55,37,8
+85,Canada,Round of 32,7/3/2026,Switzerland,Algeria,2,0,Switzerland,40,51,9
+86,USA,Round of 32,7/4/2026,Australia,Egypt,1,1,Egypt,35,53,12
+87,USA,Round of 32,7/4/2026,Argentina,Cape Verde,3,2,Argentina,59,34,7
+88,USA,Round of 32,7/4/2026,Colombia,Ghana,1,0,Colombia,54,38,8
+89,USA,Round of 16,7/5/2026,Canada,Morocco,0,3,Morocco,37,50,13
+90,USA,Round of 16,7/5/2026,Paraguay,France,0,1,France,22,66,12
+91,USA,Round of 16,7/6/2026,Brazil,Norway,1,2,Norway,32,60,8
+92,Mexico,Round of 16,7/6/2026,Mexico,England,2,3,England,59,31,10
+93,USA,Round of 16,7/7/2026,Portugal,Spain,0,1,Spain,41,50,9
+94,USA,Round of 16,7/7/2026,United States,Belgium,1,4,Belgium,51,40,9
+95,USA,Round of 16,7/8/2026,Argentina,Egypt,3,2,Argentina,57,34,9
+96,Canada,Round of 16,7/8/2026,Switzerland,Colombia,0,0,Switzerland,48,44,8
+97,USA,Quarter-final,7/10/2026,France,Morocco,2,0,France,46,46,8
+98,USA,Quarter-final,7/11/2026,Spain,Belgium,2,1,Spain,61,30,9
+99,USA,Quarter-final,7/12/2026,Norway,England,1,2,England,44,47,9
+100,USA,Quarter-final,7/12/2026,Argentina,Switzerland,3,1,Argentina,54,37,9
+101,USA,Semi-final,7/15/2026,France,Spain,0,2,Spain,46,45,9
+102,USA,Semi-final,7/16/2026,England,Argentina,1,2,Argentina,35,56,9
+103,USA,Third Place,7/15/2026,France,England,4,6,England,41,51,8
+104,USA,Final,2026-07-19,Spain,Argentina,1,0,Spain,60,32,8
